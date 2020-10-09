@@ -1,0 +1,6 @@
+#Node Modules Folder
+/node_modules
+#ANOTHER FOLDER
+/.vscode
+#Environment
+/.env
