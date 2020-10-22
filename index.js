@@ -7,7 +7,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const app = express();
 const indexRouter = require("./src/Routers/index");
-const { http, io, socketConnectionHandler } = require("./src/socket/socket");
+const { http, io, socketConnectionHandler } = require("./src/Socket/socket");
 
 //Listening Port
 app.listen(process.env.PORT, () => {
