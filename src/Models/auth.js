@@ -1,19 +1,39 @@
 const bycrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dbConnect = require("../Configs/dbConnect");
-const { changeUser } = require("../Configs/dbConnect");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: process.env.DB_HOST,
+  port: process.env.NODEMAILER_PORT, //(defaults to 587 if is secure is false or 465 if true)
+  secure: false,
+  service: process.env.NODEMAILER_EMAIL_SERVICE,
+  auth: {
+    user: process.env.NODEMAILER_EMAIL_USER,
+    pass: process.env.NODEMAILER_EMAIL_PASSWORD,
+  },
+  tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false,
+  },
+});
 
 const authModel = {
   registration: (body) => {
     return new Promise((resolve, reject) => {
       //CHECK AVAILABILITY OF USERNAME
-      const { username } = body;
-      const checkUsername = "SELECT username FROM users WHERE username=?";
-      dbConnect.query(checkUsername, [username], (err, data) => {
+      const { username, email } = body;
+      const checkAvailability =
+        "SELECT username, email FROM users WHERE username=? OR email=?";
+      dbConnect.query(checkAvailability, [username, email], (err, data) => {
         if (err) {
           reject(err);
         } else if (data.length) {
-          reject({ msg: "Username already registered" });
+          if (data[0].username === username) {
+            reject({ msg: "Username already registered" });
+          } else if (data[0].email === email) {
+            reject({ msg: "Email already registered" });
+          }
         } else {
           //DO THIS IF USERNAME IS NOT ALREADY
           bycrypt.genSalt(10, (err, salt) => {
@@ -51,7 +71,6 @@ const authModel = {
       const loginQuery =
         "SELECT user_id, name, username, email, password, image,pin, balance, noHp FROM users WHERE email=?";
       dbConnect.query(loginQuery, [email], (err, data) => {
-        // dbConnect.query(loginQuery, body.username, (err, data) => {
         if (err) {
           reject(err);
         } else if (!data.length) {
@@ -78,7 +97,7 @@ const authModel = {
 
               //CREATE TOKEN
               const token = jwt.sign(payload, secretKey, {
-                expiresIn: "10h",
+                expiresIn: "12h",
               });
               const msg = "Login Succes";
               resolve({
@@ -106,11 +125,11 @@ const authModel = {
     });
   },
   //Update User
-  updateUsers: (body, params) => {
+  updateUsers: (decodedToken, body, params) => {
     return new Promise((resolve, reject) => {
       const { id } = params;
       //Update non-password
-      if (!body.password) {
+      if (!body.password && !body.otp) {
         let updateQuery = `UPDATE users SET ? WHERE user_id=${id}`;
         dbConnect.query(updateQuery, body, (error, result) => {
           if (!error) {
@@ -178,33 +197,84 @@ const authModel = {
           }
         });
         //Reset password
-      } else if (body.password && !body.newPassword) {
-        bycrypt.genSalt(10, (err, salt) => {
-          if (err) {
-            reject(err);
-          }
-          const { password } = body;
-          bycrypt.hash(password, salt, (err, hashedPassword) => {
+      } else if (body.password && !body.newPassword && body.otp) {
+        if (decodedToken.otp !== body.otp) {
+          reject({ msg: "OTP code is wrong" });
+        } else {
+          bycrypt.genSalt(10, (err, salt) => {
             if (err) {
               reject(err);
             }
-            console.log(hashedPassword);
-            const newBody = {
-              ...body,
-              password: hashedPassword,
-            };
-            const postQuery = "UPDATE users SET ? WHERE user_id=" + id;
-            dbConnect.query(postQuery, newBody, (err, data) => {
-              if (!err) {
-                const msg = "User information is succes to be updated.";
-                resolve({ msg });
-              } else {
+            const { password } = body;
+            bycrypt.hash(password, salt, (err, hashedPassword) => {
+              if (err) {
                 reject(err);
               }
+              console.log(hashedPassword);
+              const newBody = {
+                password: hashedPassword,
+              };
+              const postQuery = "UPDATE users SET ? WHERE user_id=" + id;
+              dbConnect.query(postQuery, newBody, (err, data) => {
+                if (!err) {
+                  const msg = "Password has been changed.";
+                  resolve({ msg });
+                } else {
+                  reject(err);
+                }
+              });
             });
           });
-        });
+        }
       }
+      //Check OTP Code
+      else if (!body.password && !body.newPassword && body.otp) {
+        // console.log(decodedToken, body);
+        if (decodedToken.otp !== body.otp.toString()) {
+          reject({ msg: "OTP code is wrong" });
+        } else {
+          resolve({ otp: body.otp, msg: "OTP is true" });
+        }
+      }
+    });
+  },
+  requestResetPassword: (body) => {
+    return new Promise((resolve, reject) => {
+      console.log(body);
+      const { email } = body;
+      const checkQuery = "SELECT user_id, email FROM users WHERE email=?";
+      dbConnect.query(checkQuery, [email], (err, data) => {
+        if (err) {
+          reject({ msg: "Something is wrong" });
+        } else if (!data.length) {
+          reject({ msg: "Email not registered" });
+        } else {
+          let otp = Math.random().toFixed(6).toString().split(".")[1];
+          const payload = { otp, user_id: data[0].user_id };
+          let secretKey = process.env.SECRET_KEY;
+          const token = jwt.sign(payload, secretKey, {
+            expiresIn: 300,
+          });
+          const mailOptions = {
+            from: process.env.NODEMAILER_EMAIL_USER,
+            to: `${email}`,
+            subject: "Reset Password Zwallet",
+            html: `<p>This is OTP code to reset your password Zwallet account. OTP will expire in 5 minutes.</p>\n
+              <p>OTP: ${otp}</p>`,
+          };
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              reject({ msg: "Can't send OTP code, please try again." });
+            } else {
+              resolve({
+                token,
+                user_id: data[0].user_id,
+                msg: "Please open your email to get OTP code",
+              });
+            }
+          });
+        }
+      });
     });
   },
   //get user info

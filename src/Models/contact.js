@@ -7,7 +7,7 @@ const contactModel = {
       const { name, sortBy, orderBy, page, limit } = query;
       const offset = (page - 1) * limit;
       const checkData = `SELECT * FROM users WHERE users.name LIKE '%${name}%'`;
-      const queryString = `SELECT users.user_id, users.image, users.name,users.username,users.noHp from users WHERE users.name LIKE '%${name}%' ORDER BY users.${sortBy} ${orderBy} LIMIT ${Number(
+      const queryString = `SELECT users.user_id, users.image, users.name,users.username,users.noHp from users WHERE users.name LIKE '%${name}%' OR users.username LIKE '%${name}%' ORDER BY users.${sortBy} ${orderBy} LIMIT ${Number(
         limit
       )} OFFSET ${offset}`;
       dbConnect.query(checkData, (err, dataAll) => {

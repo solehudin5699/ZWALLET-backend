@@ -1,91 +1,10 @@
-const bodyParser = require("body-parser");
 const dbConnect = require("../Configs/dbConnect");
 
-// const transactionModel = {
-//   addTransaction: (body) => {
-//     return new Promise((resolve, reject) => {
-//       let selectBalanceSender = "SELECT balance from users WHERE user_id=?";
-//       dbConnect.query(
-//         selectBalanceSender,
-//         [body.id_sender],
-//         (err, dataSender) => {
-//           if (err) {
-//             reject(err);
-//           } else {
-//             let selectBalanceReceiver =
-//               "SELECT balance from users WHERE user_id=?";
-//             dbConnect.query(
-//               selectBalanceReceiver,
-//               [body.id_receiver],
-//               (error, dataReceiver) => {
-//                 if (error) {
-//                   reject(error);
-//                 } else {
-//                   let balanceSender =
-//                     Number(dataSender[0].balance) - Number(body.nominal);
-//                   let balanceReceiver =
-//                     Number(dataReceiver[0].balance) + Number(body.nominal);
-//                   let startTrans = "START TRANSACTION; ";
-//                   let addTransaction =
-//                     "INSERT INTO testing SET id_sender=" +
-//                     body.id_sender +
-//                     ", " +
-//                     "id_receiver=" +
-//                     body.id_receiver +
-//                     ", " +
-//                     "nominal=" +
-//                     body.nominal +
-//                     ", type_transaction=" +
-//                     "'" +
-//                     body.type_transaction +
-//                     "'" +
-//                     ", notes=" +
-//                     "'" +
-//                     body.notes +
-//                     "'" +
-//                     "; ";
-//                   let updateUserReceiver =
-//                     "UPDATE users AS receiver SET receiver.balance=" +
-//                     balanceReceiver +
-//                     " WHERE receiver.user_id=" +
-//                     body.id_receiver +
-//                     "; ";
-//                   let updateUserSender =
-//                     "UPDATE users AS sender SET sender.balance=" +
-//                     balanceSender +
-//                     " WHERE sender.user_id=" +
-//                     body.id_sender +
-//                     "; ";
-//                   let commit = "COMMIT;";
-//                   const addQuery =
-//                     startTrans +
-//                     addTransaction +
-//                     updateUserSender +
-//                     updateUserReceiver +
-//                     commit;
-//                   dbConnect.query(addQuery, (errorTrans, result) => {
-//                     if (!errorTrans) {
-//                       resolve(result);
-//                     } else {
-//                       reject(errorTrans);
-//                     }
-//                   });
-//                 }
-//               }
-//             );
-//           }
-//         }
-//       );
-//     });
-//   },
-// };
-
-// module.exports = transactionModel;
 const transactionModel = {
   addTransaction: (body) => {
     return new Promise((resolve, reject) => {
       let selectBalanceSender =
-        "SELECT username, balance from users WHERE user_id=?";
+        "SELECT username, name, balance from users WHERE user_id=?";
       dbConnect.query(
         selectBalanceSender,
         [body.id_sender],
@@ -107,23 +26,6 @@ const transactionModel = {
                   let balanceReceiver =
                     Number(dataReceiver[0].balance) + Number(body.nominal);
                   let addTransaction = "INSERT INTO transactions SET ?";
-                  // let addTransaction =
-                  //   "INSERT INTO transactions SET id_sender=" +
-                  //   body.id_sender +
-                  //   ", " +
-                  //   "id_receiver=" +
-                  //   body.id_receiver +
-                  //   ", " +
-                  //   "nominal=" +
-                  //   body.nominal +
-                  //   ", type_transaction=" +
-                  //   "'" +
-                  //   body.type_transaction +
-                  //   "'" +
-                  //   ", notes=" +
-                  //   "'" +
-                  //   body.notes +
-                  //   "'";
                   dbConnect.query(
                     addTransaction,
                     body,
@@ -155,7 +57,8 @@ const transactionModel = {
                                   } else {
                                     resolve({
                                       ...body,
-                                      sender: dataSender[0].username,
+                                      usernameSender: dataSender[0].username,
+                                      nameSender: dataSender[0].name,
                                     });
                                   }
                                 }
@@ -174,6 +77,7 @@ const transactionModel = {
       );
     });
   },
+
   getTransaction: (params, query) => {
     return new Promise((resolve, reject) => {
       const { id } = params;
@@ -184,9 +88,7 @@ const transactionModel = {
         if (error) {
           reject(error);
         } else {
-          const queryString = `SELECT * FROM transactions  WHERE id_receiver=${id} OR id_sender=${id} ORDER BY transactions.${sortBy} ${orderBy} LIMIT ${Number(
-            limit
-          )} OFFSET ${offset}`;
+          const queryString = `SELECT users.user_id, users.username,users.name, users.image, transactions.id_transaction , transactions.id_receiver,transactions.id_sender, transactions.nominal, transactions.type_transaction, transactions.transaction_date as date FROM users JOIN transactions ON users.user_id = transactions.id_sender WHERE transactions.id_receiver =${id} UNION SELECT users.user_id, users.username,users.name, users.image, transactions.id_transaction , transactions.id_receiver,transactions.id_sender, transactions.nominal, transactions.type_transaction, transactions.transaction_date as date FROM users JOIN transactions ON users.user_id = transactions.id_receiver WHERE transactions.id_sender = ${id} ORDER BY ${sortBy} ${orderBy} LIMIT ${limit} OFFSET ${offset} `;
           dbConnect.query(queryString, (err, data) => {
             if (err) {
               reject(err);

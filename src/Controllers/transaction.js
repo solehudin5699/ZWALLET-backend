@@ -10,10 +10,10 @@ const transactionController = {
         responseResult.success(res, data);
         const title = "Transaction";
         let sender;
-        if (req.body.name_sender) {
-          sender = req.body.name_sender;
+        if (data.nameSender) {
+          sender = data.nameSender;
         } else {
-          sender = req.body.username_sender;
+          sender = data.usernameSender;
         }
         let message = `${sender} has transferred you Rp${req.body.nominal}`;
         io.to(Number(req.body.id_receiver)).emit("transaction", {

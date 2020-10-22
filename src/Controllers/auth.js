@@ -24,9 +24,13 @@ const authController = {
   },
   updateUsers: (req, res) => {
     authModel
-      .updateUsers(req.body, req.params)
+      .updateUsers(req.decodedToken, req.body, req.params)
       .then((result) => {
-        if (result.affectedRows !== 0) {
+        console.log(result);
+        if (result.affectedRows === 0) {
+          const msg = `Id user = ${req.params.id} is not found`;
+          responseResult.error(res, { msg });
+        } else {
           let detailUpdate;
           if (req.body.password) {
             detailUpdate = {
@@ -40,12 +44,18 @@ const authController = {
               ...req.body,
             };
           }
-
           responseResult.success(res, detailUpdate);
-        } else {
-          const msg = `Id user = ${req.params.id} is not found`;
-          responseResult.error(res, { msg });
         }
+      })
+      .catch((error) => {
+        responseResult.error(res, error);
+      });
+  },
+  requestResetPassword: (req, res) => {
+    authModel
+      .requestResetPassword(req.body)
+      .then((data) => {
+        responseResult.success(res, data);
       })
       .catch((error) => {
         responseResult.error(res, error);

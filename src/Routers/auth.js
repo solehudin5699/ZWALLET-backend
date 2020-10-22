@@ -7,7 +7,6 @@ const uploadProfileController = require("../Helpers/Middleware/uploadProfileImag
 const checkToken = require("../Helpers/Middleware/checkToken");
 
 //IMPLEMENTATION
-//PUBLIC
 //#registration
 authRouter.post("/registration", authController.registration);
 //#login
@@ -15,6 +14,7 @@ authRouter.post("/login", authController.login);
 //#edit profile
 authRouter.patch(
   "/update/:id",
+  checkToken.users,
   uploadProfileController.singleUpload,
   authController.updateUsers
 );
@@ -22,8 +22,9 @@ authRouter.patch(
 authRouter.post("/validate", checkToken.users, (req, res) => {
   res.json({ status: 200, token: true });
 });
-
-// authRouter.get("/")
+//#request to reset password
+authRouter.post("/reset", authController.requestResetPassword);
+//#get user info
 authRouter.get("/user/:id", authController.getUserInfo);
 
 module.exports = authRouter;
