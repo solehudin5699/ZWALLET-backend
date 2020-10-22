@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Okt 2020 pada 07.24
+-- Waktu pembuatan: 22 Okt 2020 pada 17.50
 -- Versi server: 10.4.13-MariaDB
 -- Versi PHP: 7.4.7
 
@@ -151,7 +151,12 @@ INSERT INTO `transactions` (`id_transaction`, `id_sender`, `id_receiver`, `nomin
 (108, 1, 5, 300, 'Transfer', 'Beli permen maknyus', '2020-10-19 13:21:21'),
 (109, 1, 2, 100, 'Transfer', 'Apa ya', '2020-10-19 13:23:20'),
 (110, 2, 1, 50, 'Transfer', 'beli Soto', '2020-10-19 13:28:31'),
-(111, 2, 1, 50, 'Transfer', 'beli Soto', '2020-10-19 13:55:12');
+(111, 2, 1, 50, 'Transfer', 'beli Soto', '2020-10-19 13:55:12'),
+(112, 2, 14, 100, 'Transfer', 'beli Soto', '2020-10-22 15:16:25'),
+(113, 2, 14, 100, 'Transfer', 'beli Soto', '2020-10-22 15:16:43'),
+(114, 2, 14, 100, 'Transfer', 'beli Soto', '2020-10-22 15:16:53'),
+(115, 2, 14, 200, 'Transfer', 'beli Soto', '2020-10-22 15:19:14'),
+(116, 2, 14, 300, 'Transfer', 'beli Soto', '2020-10-22 15:23:54');
 
 -- --------------------------------------------------------
 
@@ -177,13 +182,15 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `username`, `email`, `password`, `pin`, `noHp`, `image`, `register_date`, `balance`) VALUES
-(1, 'Solehudin', 'solehudin1', 'solehudin5699@gmail.com', '$2b$10$sehs35qv0d2aDIqgoG.yiuLSsR3cZG4cki8ZaeJMl/bm6bBaB3s.m', 123456, '082319550000', '/profileImages/1603290922626-image.jpg', '2020-09-27 17:16:20', 2600),
-(2, 'Solehudin', 'solehudin2', 'solehudin2@surel.com', '$2b$10$M1Pv2WiePbU0qKd4TQcvyumd.SZsNeUsbr8HweM0OkX8gG8buuMUW', 123456, '', '/profileImages/1602012593608-image.jpg', '2020-09-28 01:42:56', -800),
+(1, 'Solehudin', 'solehudin1', 'solehudin5699@gmail.com', '$2b$10$pTs8XcGtSAaJegYdo/mdR.1p36dswXzWxVXzfv4R.Kq1qvQCCX1q6', 123456, '082319550000', '/profileImages/1603290922626-image.jpg', '2020-09-27 17:16:20', 2600),
+(2, 'Solehudin', 'solehudin2', 'solehudin2@surel.com', '$2b$10$M1Pv2WiePbU0qKd4TQcvyumd.SZsNeUsbr8HweM0OkX8gG8buuMUW', 123456, '', '/profileImages/1602012593608-image.jpg', '2020-09-28 01:42:56', -1600),
 (3, 'Solehudin', 'solehudin3', 'solehudin3@surel.com', '$2b$10$o6IBo8trC20cEg7IDe07Q.bqF/PZVpWQnZvPGYMdyu47ij9PJiRUa', 123456, '', '/profileImages/1601869520738-image.jpg', '2020-09-28 01:51:33', 4400),
 (4, 'Solehudin', 'solehudin4', 'solehudin4@surel.com', '$2b$10$ks3VdKcF3HtsqwY4dhqBvu10vunAsGnJ.RKNxYZPMVhwy3da4A7Ue', 123456, '', '/profileImages/1601919904324-image.jpg', '2020-09-28 03:11:19', 5800),
 (5, '', 'zulhamdani', 'zulhamdani@surel.com', '$2b$10$pxVt0s1xqk4dls/OsPkUK.VG/KOUnzZ5swIDMU4ZeKB5utN3Sr3aS', 123456, '', '/profileImages/1601869997742-image.jpg', '2020-10-01 04:53:03', 4562),
 (6, '', 'burhan', 'burhan@surel.com', '$2b$10$1AbUuAJbn70Ew0M9uU6EFuMJBN66nNH2wIcAszsDr0J23JgqOHJlq', 123456, '', '/profileImages/1602001286650-image.jpg', '2020-10-01 08:01:14', 1238),
-(7, '', 'solehudin100', 'solehudin100@surel.com', '$2b$10$mLqn79McOUk.gGR5wbkcBuNPsmQf3eBOHlc1/JEDRl82eSDFvMS1O', 0, '', '/profileImages/1602006032798-image.jpg', '2020-10-06 17:03:28', 200);
+(7, '', 'solehudin100', 'solehudin100@surel.com', '$2b$10$mLqn79McOUk.gGR5wbkcBuNPsmQf3eBOHlc1/JEDRl82eSDFvMS1O', 0, '', '/profileImages/1602006032798-image.jpg', '2020-10-06 17:03:28', 200),
+(9, '', 'Taufik Widi', 'taufikwidi@gemail.com', '$2b$10$nvg/61L5AiZCmKvSl/t8.eu9NZCG8i3srSpzmqhnqqCAl6m5d7qaa', 123456, '', '', '2020-10-22 11:40:37', 0),
+(14, '', 'nawirudin', 'nawirudin@gemail.com', '$2b$10$zAN03wRfJWfQmpLB8vVW/uvrsc35HiClCkTfKA/DfqjgexHXa8Jqm', 123456, '', '', '2020-10-22 14:53:11', 800);
 
 --
 -- Indexes for dumped tables
@@ -211,13 +218,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id_transaction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id_transaction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

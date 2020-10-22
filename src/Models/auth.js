@@ -27,7 +27,7 @@ const authModel = {
         "SELECT username, email FROM users WHERE username=? OR email=?";
       dbConnect.query(checkAvailability, [username, email], (err, data) => {
         if (err) {
-          reject(err);
+          reject({ msg: "Something is wrong." });
         } else if (data.length) {
           if (data[0].username === username) {
             reject({ msg: "Username already registered" });
@@ -38,12 +38,12 @@ const authModel = {
           //DO THIS IF USERNAME IS NOT ALREADY
           bycrypt.genSalt(10, (err, salt) => {
             if (err) {
-              reject(err);
+              reject({ msg: "Something is wrong." });
             }
             const { password } = body;
             bycrypt.hash(password, salt, (err, hashedPassword) => {
               if (err) {
-                reject(err);
+                reject({ msg: "Something is wrong." });
               }
               console.log(hashedPassword);
               const newBody = {
@@ -53,10 +53,20 @@ const authModel = {
               const postQuery = "INSERT INTO users SET ?";
               dbConnect.query(postQuery, newBody, (err, data) => {
                 if (!err) {
-                  const msg = "Registration is succes";
-                  resolve({ msg });
+                  //CREATE TOKEN FOR CREATE PIN IN FRONT END
+                  let randomKey = Math.random()
+                    .toFixed(6)
+                    .toString()
+                    .split(".")[1];
+                  let payload = { randomKey };
+                  let secretKey = process.env.SECRET_KEY;
+                  const token = jwt.sign(payload, secretKey, {
+                    expiresIn: "12h",
+                  });
+                  const msg = "Registration is success";
+                  resolve({ msg, token, user_id: data.insertId });
                 } else {
-                  reject(err);
+                  reject({ msg: "Registration is failed" });
                 }
               });
             });

@@ -5,6 +5,7 @@ const authRouter = express.Router();
 const authController = require("../Controllers/auth");
 const uploadProfileController = require("../Helpers/Middleware/uploadProfileImages");
 const checkToken = require("../Helpers/Middleware/checkToken");
+const dbConnect = require("../Configs/dbConnect");
 
 //IMPLEMENTATION
 //#registration
@@ -26,5 +27,16 @@ authRouter.post("/validate", checkToken.users, (req, res) => {
 authRouter.post("/reset", authController.requestResetPassword);
 //#get user info
 authRouter.get("/user/:id", authController.getUserInfo);
+// authRouter.post("/try", (req, res) => {
+//   const qs = "INSERT INTO users SET ?";
+//   const data = { name: req.body.name };
+//   dbConnect.query(qs, data, (err, result) => {
+//     if (err) {
+//       res.send(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
 
 module.exports = authRouter;
