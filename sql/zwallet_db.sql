@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Okt 2020 pada 17.50
+-- Waktu pembuatan: 29 Okt 2020 pada 00.36
 -- Versi server: 10.4.13-MariaDB
 -- Versi PHP: 7.4.7
 
@@ -189,8 +189,8 @@ INSERT INTO `users` (`user_id`, `name`, `username`, `email`, `password`, `pin`, 
 (5, '', 'zulhamdani', 'zulhamdani@surel.com', '$2b$10$pxVt0s1xqk4dls/OsPkUK.VG/KOUnzZ5swIDMU4ZeKB5utN3Sr3aS', 123456, '', '/profileImages/1601869997742-image.jpg', '2020-10-01 04:53:03', 4562),
 (6, '', 'burhan', 'burhan@surel.com', '$2b$10$1AbUuAJbn70Ew0M9uU6EFuMJBN66nNH2wIcAszsDr0J23JgqOHJlq', 123456, '', '/profileImages/1602001286650-image.jpg', '2020-10-01 08:01:14', 1238),
 (7, '', 'solehudin100', 'solehudin100@surel.com', '$2b$10$mLqn79McOUk.gGR5wbkcBuNPsmQf3eBOHlc1/JEDRl82eSDFvMS1O', 0, '', '/profileImages/1602006032798-image.jpg', '2020-10-06 17:03:28', 200),
-(9, '', 'Taufik Widi', 'taufikwidi@gemail.com', '$2b$10$nvg/61L5AiZCmKvSl/t8.eu9NZCG8i3srSpzmqhnqqCAl6m5d7qaa', 123456, '', '', '2020-10-22 11:40:37', 0),
-(14, '', 'nawirudin', 'nawirudin@gemail.com', '$2b$10$zAN03wRfJWfQmpLB8vVW/uvrsc35HiClCkTfKA/DfqjgexHXa8Jqm', 123456, '', '', '2020-10-22 14:53:11', 800);
+(9, 'Andre', 'andrean', 'andrean@gemail.com', '$2b$10$nvg/61L5AiZCmKvSl/t8.eu9NZCG8i3srSpzmqhnqqCAl6m5d7qaa', 123456, '', '', '2020-10-22 11:40:37', 0),
+(14, 'Zulkifli', 'zulkifli', 'zulkifli@gemail.com', '$2b$10$zAN03wRfJWfQmpLB8vVW/uvrsc35HiClCkTfKA/DfqjgexHXa8Jqm', 123456, '', '', '2020-10-22 14:53:11', 800);
 
 --
 -- Indexes for dumped tables
