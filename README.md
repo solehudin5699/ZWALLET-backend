@@ -63,6 +63,32 @@ SECRET_KEY='ZwAllEt'
 7. Run XAMPP control panel
 8. Type `npm run server` or `npm start` in terminal for run this backend.
 
+## Endpoint
+
+### Authentication Router
+
+| No. | Method |      Endpoint      |
+| :-: | :----: | :----------------: |
+|  1  |  POST  | /auth/registration |
+|     |        |    /auth/login     |
+|     |        |   /auth/validate   |
+|     |        |    /auth/reset     |
+|  2  |  GET   |   /auth/user/:id   |
+|  3  | PATCH  |  /auth/update/:id  |
+
+### Contact Router
+
+| No. | Method | Endpoint |
+| :-: | :----: | :------: |
+|  1  |  GET   | /contact |
+
+### Transaction Router
+
+| No. | Method |     Endpoint     |
+| :-: | :----: | :--------------: |
+|  1  |  POST  |   /transaction   |
+|  2  |  GET   | /transaction/:id |
+
 ## Related Project
 
 Frontend Zwallet App that use this RESTful API.
