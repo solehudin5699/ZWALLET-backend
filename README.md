@@ -1,5 +1,9 @@
 <h1 align="center">Zwallet App - Backend</h1>
 
+<div align="center">
+    <img width="250" src="https://raw.githubusercontent.com/solehudin5699/ZWALLET-frontend/master/src/assets/images/ic_launcher_round.png">
+</div>
+
 ## Description
 
 This is RESTful api design for
@@ -40,8 +44,8 @@ NODEMAILER_EMAIL_PASSWORD='password_email_for_send_OTP'
 SECRET_KEY='ZwAllEt'
 ```
 
-Adjust `name_database`, `email_service`, `email_for_send_OTP` and
-`password_email_for_send_OTP` with email that you used.
+Customize `name_database`, `email_service`, `email_for_send_OTP` and
+`password_email_for_send_OTP` with the one you are using.
 
 Example:
 
