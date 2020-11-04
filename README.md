@@ -100,3 +100,11 @@ Frontend Zwallet App that use this RESTful API.
 <a href="https://github.com/solehudin5699/ZWALLET-frontend.git">
 <img src="https://img.shields.io/badge/Zwallet%20Frontend-Repository-blue.svg?style=popout&logo=github"/>
 </a>
+
+## Documentation Postman
+
+Frontend Zwallet App that use this RESTful API.
+
+<a href="https://documenter.getpostman.com/view/11765677/TVYNYvQ5">
+<img src="https://img.shields.io/badge/Documentation-POSTMAN-blue.svg?style=popout&logo=postman"/>
+</a>
