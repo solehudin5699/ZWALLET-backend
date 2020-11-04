@@ -7,8 +7,6 @@
 ## Contents
 
 - [Description](#description)
-- [Features](#features)
-- [Usage](#usage-application)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Endpoint](#endpoint)
