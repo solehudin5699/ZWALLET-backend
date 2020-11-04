@@ -4,6 +4,17 @@
     <img width="250" src="https://raw.githubusercontent.com/solehudin5699/ZWALLET-frontend/master/src/assets/images/ic_launcher_round.png">
 </div>
 
+## Contents
+
+- [Description](#description)
+- [Features](#features)
+- [Usage](#usage-application)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Endpoint](#endpoint)
+- [Documentation](#documentation)
+- [Related Project](#related-project)
+
 ## Description
 
 This is RESTful api design for
@@ -93,18 +104,18 @@ SECRET_KEY='ZwAllEt'
 |  1  |  POST  |   /transaction   |
 |  2  |  GET   | /transaction/:id |
 
+## Documentation
+
+Check out the documentation here for your convenience.
+
+<a href="https://documenter.getpostman.com/view/11765677/TVYNYvQ5">
+<img src="https://img.shields.io/badge/Documentation-POSTMAN-blue.svg?style=popout&logo=postman"/>
+</a>
+
 ## Related Project
 
 Frontend Zwallet App that use this RESTful API.
 
 <a href="https://github.com/solehudin5699/ZWALLET-frontend.git">
 <img src="https://img.shields.io/badge/Zwallet%20Frontend-Repository-blue.svg?style=popout&logo=github"/>
-</a>
-
-## Documentation Postman
-
-Frontend Zwallet App that use this RESTful API.
-
-<a href="https://documenter.getpostman.com/view/11765677/TVYNYvQ5">
-<img src="https://img.shields.io/badge/Documentation-POSTMAN-blue.svg?style=popout&logo=postman"/>
 </a>
