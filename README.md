@@ -19,9 +19,11 @@ Built with Node js, using ExpressJs framework and other libraries.
 1. Open your terminal or command prompt
 2. Type `git clone https://github.com/solehudin5699/ZWALLET-backend.git`
 3. Open the folder and type `npm install` for install dependencies
-4. Create database such as named **_zwallet_db_** and import database
+4. If you haven't installed nodemon, please install it globally, type
+   `npm install -g nodemon`
+5. Create database such as named **_zwallet_db_** and import database
    **zwallet_db.sql** in folder sql to your new database
-5. Create file **_.env_** in root folder with the following contents :
+6. Create file **_.env_** in root folder with the following contents :
 
 ```bash
 DB_HOST = 'localhost'
@@ -58,8 +60,8 @@ NODEMAILER_EMAIL_PASSWORD='my-email-password'
 SECRET_KEY='ZwAllEt'
 ```
 
-6. Run XAMPP control panel
-7. Type `npm run server` or `npm start` in terminal for run this backend.
+7. Run XAMPP control panel
+8. Type `npm run server` or `npm start` in terminal for run this backend.
 
 ## Related Project
 
