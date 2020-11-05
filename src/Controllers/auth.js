@@ -40,9 +40,16 @@ const authController = {
               newPassword: "",
             };
           } else {
-            detailUpdate = {
-              ...req.body,
-            };
+            if (result.deleteImgInServer) {
+              detailUpdate = {
+                ...req.body,
+                deleteImgInServer: result.deleteImgInServer,
+              };
+            } else {
+              detailUpdate = {
+                ...req.body,
+              };
+            }
           }
           responseResult.success(res, detailUpdate);
         }

@@ -2,6 +2,7 @@ const bycrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dbConnect = require("../Configs/dbConnect");
 const nodemailer = require("nodemailer");
+const fs = require("fs");
 
 const transporter = nodemailer.createTransport({
   host: process.env.DB_HOST,
@@ -138,12 +139,23 @@ const authModel = {
   updateUsers: (decodedToken, body, params) => {
     return new Promise((resolve, reject) => {
       const { id } = params;
+      let imgDelete=body.imageDelete;
+      delete body.imageDelete;
       //Update non-password
       if (!body.password && !body.otp) {
         let updateQuery = `UPDATE users SET ? WHERE user_id=${id}`;
         dbConnect.query(updateQuery, body, (error, result) => {
           if (!error) {
-            resolve(result);
+            if (imgDelete) {
+              try {
+                fs.unlinkSync("public" + imgDelete);
+                resolve({ ...result, deleteImgInServer: "Success" });
+              } catch (err) {
+                resolve({ ...result, deleteImgInServer: "Failed" });
+              }
+            } else {
+              resolve(result);
+            }
           } else {
             reject(error);
           }
